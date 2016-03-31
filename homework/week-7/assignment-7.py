@@ -19,9 +19,11 @@ def estimate_mean(data):
 def estimate_covariance(data):
     return np.cov(data)
 
+# FIXME: See slide 22 of week 7
 mean_a = estimate_mean(matlab_data['A'])
 mean_b = estimate_mean(matlab_data['B'])
 
+# FIXME: ...?
 cov_a = estimate_covariance(matlab_data['A'])
 cov_b = estimate_covariance(matlab_data['B'])
 
