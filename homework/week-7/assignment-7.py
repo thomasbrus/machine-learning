@@ -70,13 +70,13 @@ predicted_class = classify_3d(matlab_data, [2, 2, 8])
 # =============================================================================
 
 combined_matlab_data = np.concatenate((matlab_data['A'], matlab_data['B']), axis=1)
-U, s, Vt = np.linalg.svd(combined_matlab_data , full_matrices=False)
+U, s, Vt = np.linalg.svd(np.cov(combined_matlab_data))
 
 V = Vt.T
 S = np.diag(s)
 
 original_matrix = combined_matlab_data
-reconstructed_matrix =  np.dot(U[:, :1], np.dot(S[:1, :1], V[:,:1].T))
+reconstructed_matrix =  np.dot(U[:, :1], np.dot(S[:1, :1], V[:, :1].T))
 
 original_matrix_variance = np.var(original_matrix)
 reconstructed_matrix_variance = np.var(reconstructed_matrix)
@@ -85,7 +85,7 @@ reconstructed_matrix_variance = np.var(reconstructed_matrix)
 # =============================================================================
 
 def classify_1d(data, x):
-    x1 = x
+    x1 = x[0]
 
     probability_a = data['A'].shape[1] / (data['A'].shape[1] + data['B'].shape[1])
     probability_b = data['B'].shape[1] / (data['A'].shape[1] + data['B'].shape[1])
