@@ -187,6 +187,8 @@ projected_matrix_b_variance = np.var(projected_matrix_b)
 
 projected_x = [np.dot([2, 2, 8], U[0,:]), np.dot([2, 2, 8], U[1,:])]
 
+# correct_x = [ 6.1028375 , -5.66231849 ]
+
 predicted_class = classify_2d({ 'A': projected_matrix_a, 'B': projected_matrix_b }, projected_x)
 
 pdb.set_trace()
