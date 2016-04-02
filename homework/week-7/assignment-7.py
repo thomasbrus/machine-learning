@@ -70,16 +70,20 @@ predicted_class = classify_3d(matlab_data, [2, 2, 8])
 # =============================================================================
 
 combined_matlab_data = np.concatenate((matlab_data['A'], matlab_data['B']), axis=1)
-U, s, Vt = np.linalg.svd(np.cov(combined_matlab_data))
+cov_dataset = np.cov(combined_matlab_data)
+U, s, Vt = np.linalg.svd(cov_dataset)
 
 V = Vt.T
 S = np.diag(s)
 
+first_principal = U[:, 0:1].T
+second_principal = U[:, 1:2].T
+
 original_matrix = combined_matlab_data
-reconstructed_matrix =  np.dot(U[:, :1], np.dot(S[:1, :1], V[:, :1].T))
+reconstructed_matrix =  np.dot(first_principal, original_matrix)
 
 original_matrix_variance = np.var(original_matrix)
-reconstructed_matrix_variance = np.var(reconstructed_matrix)
+reconstructed_matrix_variance = np.dot(first_principal, np.dot(cov_dataset, first_principal.T))
 
 # Exercise 1d
 # =============================================================================
@@ -109,24 +113,30 @@ def classify_1d(data, x):
 matrix_a = matlab_data['A']
 matrix_b =  matlab_data['B']
 
-projected_matrix_a = np.dot(U[:1,:], matrix_a)
-projected_matrix_b = np.dot(U[:1,:], matrix_b)
-
-matrix_a_mean = np.mean(matrix_a)
+matrix_a_mean = matrix_a.mean(axis=1)
 matrix_a_variance = np.var(matrix_a)
 
-projected_matrix_a_mean = np.mean(projected_matrix_a)
-projected_matrix_a_variance = np.var(projected_matrix_a)
-
-matrix_b_mean = np.mean(matrix_b)
+matrix_b_mean = matrix_b.mean(axis=1)
 matrix_b_variance = np.var(matrix_b)
 
-projected_matrix_b_mean = np.mean(projected_matrix_b)
-projected_matrix_b_variance = np.var(projected_matrix_b)
+projected_matrix_a = np.dot(first_principal, matrix_a)
+projected_matrix_b = np.dot(first_principal, matrix_b)
 
-projected_x = [np.dot([2, 2, 8], U[0,:])]
+projected_matrix_a_mean = np.dot(first_principal, matrix_a_mean)
+projected_matrix_a_variance = np.dot(first_principal, np.dot(cov_a, first_principal.T))
+
+projected_matrix_b_mean = np.dot(first_principal, matrix_b_mean)
+projected_matrix_b_variance = np.dot(first_principal, np.dot(cov_b, first_principal.T))
+
+x = [2, 2, 8]
+
+corrected_x = x
+
+projected_x = np.dot(first_principal, corrected_x)
 
 predicted_class = classify_1d({ 'A': projected_matrix_a, 'B': projected_matrix_b }, projected_x)
+
+pdb.set_trace()
 
 # Exercise 1e
 # =============================================================================
@@ -170,22 +180,22 @@ def classify_2d(data, x):
 matrix_a = matlab_data['A']
 matrix_b =  matlab_data['B']
 
-projected_matrix_a = np.dot(U[:2,:], matrix_a)
-projected_matrix_b = np.dot(U[:2,:], matrix_b)
-
 matrix_a_mean = np.mean(matrix_a)
 matrix_a_variance = np.var(matrix_a)
-
-projected_matrix_a_mean = np.mean(projected_matrix_a)
-projected_matrix_a_variance = np.var(projected_matrix_a)
 
 matrix_b_mean = np.mean(matrix_b)
 matrix_b_variance = np.var(matrix_b)
 
+projected_matrix_a = np.dot(U[: ,:2].T, matrix_a)
+projected_matrix_b = np.dot(U[: ,:2].T, matrix_b)
+
+projected_matrix_a_mean = np.mean(projected_matrix_a)
+projected_matrix_a_variance = np.var(projected_matrix_a)
+
 projected_matrix_b_mean = np.mean(projected_matrix_b)
 projected_matrix_b_variance = np.var(projected_matrix_b)
 
-projected_x = [np.dot([2, 2, 8], U[0,:]), np.dot([2, 2, 8], U[1,:])]
+projected_x = np.dot(U[: ,0:2].T, x)
 
 # correct_x = [ 6.1028375 , -5.66231849 ]
 
