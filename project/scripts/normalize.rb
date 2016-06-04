@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 # $ ruby scripts/normalize.rb datasets/a/train.csv > datasets/a/train-normalized.csv
 filename = ARGV.fetch(0)

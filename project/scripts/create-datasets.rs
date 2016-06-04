@@ -8,7 +8,7 @@ fn write_line(writer: &mut BufWriter<File>, line: &str) -> usize {
     writer.write(format!("{}\n", line).as_bytes()).expect("Failed to write line")
 }
 
-fn create_dataset(input_name: &str, output_name: &str, skip: i32) {
+fn create_dataset(input_name: &str, output_name: &str, nth: i32) {
     let mut row_number = 0;
 
     let input_file = File::open(input_name).unwrap();
@@ -18,8 +18,7 @@ fn create_dataset(input_name: &str, output_name: &str, skip: i32) {
     let mut writer = BufWriter::new(output_file);
 
     for line in reader.lines() {
-        if row_number % skip == 0 {
-            // Write line to a/train.csv
+        if row_number % nth == 0 {
             write_line(&mut writer, &line.unwrap());
         }
 
