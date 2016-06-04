@@ -1,6 +1,9 @@
 # README
 
-...
+# INSTALLATION
+- Ruby (https://www.ruby-lang.org/en/documentation/installation/)
+- Rust (https://www.rust-lang.org/downloads.html)
+- Weka  (http://www.cs.waikato.ac.nz/ml/weka/downloading.html)
 
 ## GETTING STARTED
 
