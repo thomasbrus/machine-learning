@@ -31,11 +31,11 @@ fn create_dataset(input_name: &str, output_name: PathBuf, nth: i32) -> Result<()
     Ok(())
 }
 
-fn build_output_path(dir: &str, filename: &str) -> PathBuf {
+fn build_output_path(dirname: &str) -> PathBuf {
     let mut path = PathBuf::new();
     path.push("datasets");
-    path.push(dir);
-    path.push(filename);
+    path.push(dirname);
+    path.push("train");
     path.set_extension("csv");
     path
 }
@@ -43,20 +43,14 @@ fn build_output_path(dir: &str, filename: &str) -> PathBuf {
 fn main() {
     // For example ./scripts/create-datasets datasets/train.csv datasets/test.csv
     let filename1 = &env::args().nth(1).expect("Missing argument <train.csv>");
-    let filename2 = &env::args().nth(2).expect("Missing argument <test.csv>");
 
     // See https://primes.utm.edu/lists/small/10000.txt
-    let prime1 = 139;
-    let prime2 = 31;
+    let prime1 = 31;
+    let prime2 = 7;
     let prime3 = 1;
 
     // Take each nth line and output to file
-    create_dataset(filename1, build_output_path("a", "train.csv"), prime1).unwrap();
-    create_dataset(filename1, build_output_path("b", "train.csv"), prime2).unwrap();
-    create_dataset(filename1, build_output_path("c", "train.csv"), prime3).unwrap();
-
-    // Idem dito for test sets
-    create_dataset(filename2, build_output_path("a", "test.csv"), prime1).unwrap();
-    create_dataset(filename2, build_output_path("b", "test.csv"), prime2).unwrap();
-    create_dataset(filename2, build_output_path("c", "test.csv"), prime3).unwrap();
+    create_dataset(filename1, build_output_path("a"), prime1).unwrap();
+    create_dataset(filename1, build_output_path("b"), prime2).unwrap();
+    create_dataset(filename1, build_output_path("c"), prime3).unwrap();
 }
