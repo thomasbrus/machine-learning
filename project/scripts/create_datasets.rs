@@ -45,12 +45,12 @@ fn main() {
     let filename1 = &env::args().nth(1).expect("Missing argument <train.csv>");
 
     // See https://primes.utm.edu/lists/small/10000.txt
-    let prime1 = 31;
-    let prime2 = 7;
-    let prime3 = 1;
+    let prime1 = 88;
+    // let prime2 = 7;
+    // let prime3 = 1;
 
     // Take each nth line and output to file
     create_dataset(filename1, build_output_path("a"), prime1).unwrap();
-    create_dataset(filename1, build_output_path("b"), prime2).unwrap();
-    create_dataset(filename1, build_output_path("c"), prime3).unwrap();
+    // create_dataset(filename1, build_output_path("b"), prime2).unwrap();
+    // create_dataset(filename1, build_output_path("c"), prime3).unwrap();
 }
