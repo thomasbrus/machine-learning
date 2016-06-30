@@ -34,6 +34,7 @@ fn create_dataset(input_name: &str, output_name: PathBuf, nth: i32) -> Result<()
 fn build_output_path(dirname: &str) -> PathBuf {
     let mut path = PathBuf::new();
     path.push("datasets");
+    path.push("train");
     path.push(dirname);
     path.push("train");
     path.set_extension("csv");
@@ -41,16 +42,16 @@ fn build_output_path(dirname: &str) -> PathBuf {
 }
 
 fn main() {
-    // For example ./scripts/create-datasets datasets/train.csv datasets/test.csv
+    // For example ./scripts/create-datasets datasets/train.csv
     let filename1 = &env::args().nth(1).expect("Missing argument <train.csv>");
 
     // See https://primes.utm.edu/lists/small/10000.txt
     let prime1 = 88;
-    // let prime2 = 7;
-    // let prime3 = 1;
+    let prime2 = 7;
+    let prime3 = 1;
 
     // Take each nth line and output to file
     create_dataset(filename1, build_output_path("a"), prime1).unwrap();
-    // create_dataset(filename1, build_output_path("b"), prime2).unwrap();
-    // create_dataset(filename1, build_output_path("c"), prime3).unwrap();
+    create_dataset(filename1, build_output_path("b"), prime2).unwrap();
+    create_dataset(filename1, build_output_path("c"), prime3).unwrap();
 }

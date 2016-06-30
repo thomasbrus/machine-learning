@@ -19,15 +19,15 @@ SCRIPT
   filename = category.downcase.gsub(/(\s|\/)/, '-')
 
   puts <<-SCRIPT
-head -n 1 datasets/a/enriched.csv | awk '{print $1",#{category}"}' > datasets/categories/#{filename}.csv
+head -n 1 datasets/train/b/enriched.csv | awk '{print $1",#{category}"}' > datasets/train/b/#{filename}.csv
 
-NUMBER_OF_LINES=$(grep ',#{category},' datasets/a/enriched.csv | wc -l)
+NUMBER_OF_LINES=$(grep ',#{category},' datasets/train/b/enriched.csv | wc -l)
 
-grep ',#{category},' datasets/a/enriched.csv | sed 's/.*/&,TRUE/' >> datasets/categories/#{filename}.csv
+grep ',#{category},' datasets/train/b/enriched.csv | sed 's/.*/&,TRUE/' >> datasets/train/b/#{filename}.csv
 
-grep -v ',#{category},' datasets/a/enriched.csv \
+grep -v ',#{category},' datasets/train/b/enriched.csv \
   | sed 's/.*/&,FALSE/' \
   | ruby -e "puts ARGF.readlines.drop(1).shuffle.take($NUMBER_OF_LINES)" \
-  >> datasets/categories/#{filename}.csv
+  >> datasets/train/b/#{filename}.csv
   SCRIPT
 end
